@@ -1,0 +1,10 @@
+book_filename: "MPprotocol"
+repo: https://github.com/harkanatta/MPprotocol
+delete_merged_file: true
+newsession: yes
+language:
+  ui:
+    chapter_name: "Chapter "
+
+
+
