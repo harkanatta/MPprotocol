@@ -15,44 +15,32 @@ bibliography: refs.bib
 biblio-style: apalike
 link-citations: yes
 description: "Protocol for sampling and processing based on the BASEMAN protocol. Description and first trials in Húnaflói Iceland"    
-#cover-image: 'img/nineteeneightyR.png'
-#url: 'https\://m-clark.github.io/Introduction-to-Rmarkdown/'
 favicon: 'myndir/zeropoint_logo.jpg'
-#github-repo:  'm-clark/Introduction-to-Rmarkdown/'
 fig_caption: yes
-lang: is
-cls: IEEEtran
----
-
---- 
-title: <span style="font-size:125%; font-family:Roboto; font-style:normal">Marine Microplastic Sampling Protocol</span> 
-subtitle: <span style="font-size:100%; font-family:Roboto; font-style:normal">Protocol for sampling and processing based on the BASEMAN protocol</span>
-author:  |
-  <span class="noem">Karin Zech and Valtýr Sigurðsson</span>
-date: "`r format(Sys.time(), '%e. %B %Y')`"
-site: bookdown::bookdown_site
-lot: yes
-lof: yes
-output:
-  bookdown::gitbook
-always_allow_html: yes
-documentclass: book
-bibliography: refs.bib
-biblio-style: apalike
-link-citations: yes
-description: "Protocol for sampling and processing based on the BASEMAN protocol. Description and first trials in Húnaflói Iceland"    
-#cover-image: 'img/nineteeneightyR.png'
-#url: 'https\://m-clark.github.io/Introduction-to-Rmarkdown/'
-favicon: 'myndir/zeropoint_logo.jpg'
-#github-repo:  'm-clark/Introduction-to-Rmarkdown/'
-fig_caption: yes
-lang: is
-cls: IEEEtran
 ---
 
 # Protocol
 
-<p style="color:red">NB! This protocol was efficient for the identification of particles under the stereo microscope but it needs to be adjusted if the samples will be used for the Raman. Digestion needs to be more efficient if the samples are used for the RAMAN. Since there can be a lot of sand in some samples a density separation might be applicable. If there is a lot of organic matter left on the filter digestion time/method might need to be adjusted.</p>
+```{r pakkar, message=FALSE, warning=FALSE,echo=FALSE,include=FALSE}
+library(dplyr)
+library(plyr)
+library(magrittr)
+library(DT)
+library(data.table)
+library(tidyverse)
+library(crayon)
+data <- read.csv('skjol/MPdata2019Karin.csv',header = T,dec = ".",na.strings = "")
+data$Blank <- ifelse(grepl("lank",data$Sample),"yes","no")
+data$SizeClass <- ifelse(data$Length<=100 & data$Width<=100,"small",ifelse(data$Length>100 & data$Width>100 & data$Length<=350 & data$Width<=350,"medium","large"))
+litir=c("#E2FCFF", "#181818", "#FCFCD3")
+```
+
+<style>
+div.orangehigh { background-color:#cb5600; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "orangehigh">
+This protocol was efficient for the identification of particles under the stereo microscope but it needs to be adjusted if the samples will be used for the Raman. Digestion needs to be more efficient if the samples are used for the RAMAN. Since there can be a lot of sand in some samples a density separation might be applicable. If there is a lot of organic matter left on the filter digestion time/method might need to be adjusted.
+</div>
 
 ## Equipment
 
@@ -89,7 +77,9 @@ In correspondence with Dr. Joao Frias glass ware are treated like this:
 In the [BASEMAN protocol](https://www.oceanbestpractices.net/bitstream/handle/11329/1077/mafiadoc.com_standardised-protocol-for-monitoring-microplastics_5c8d88c5097c47605c8b45d0.pdf?sequence=1) Nitric acid (1 %) is used to decontaminate the glass ware before the glass is rinsed with water before use. Ideally it should dry up-side-down for airborne microplastics not to accumulate in it.
 The containers and flasks need to be closed with a lid or aluminium foil whenever they are not handled under the clean bench. 
 The Erlenmeyer flasks have to be dried in the oven after rinsing to be able to take the tare. Record the tare! Remember that the flasks need to be covered with aluminium foil after they have been rinsed. 
-<p style="color:red">All the solutions which will be added to the samples have to be filtered under the clean bench with a 0.22 um filter.</p>
+
+<div class = "orangehigh">
+All the solutions which will be added to the samples have to be filtered under the clean bench with a 0.22 um filter.</div>
 
 
 ## Sampling on board
@@ -133,7 +123,8 @@ Three different types of blanks are taken with each sampling/processing.
 
 ## Processing in the laboratory
 
-<p style="color:red">NB: Authors from the baseman protocol recommend to not exceed an incubation temperature of more than 40 °C as well as not exceeding a concentration of 10 % for KOH and H2O2, however other protocols go above this temperature/time.</p>
+<div class = "orangehigh">NB: Authors from the baseman protocol recommend to not exceed an incubation temperature of more than 40 °C as well as not exceeding a concentration of 10 % for KOH and H2O2, however other protocols go above this temperature/time.</div>
+
 
 The samples/blank are stored in the fridge (for short time storage) or in the freezer (for long time storage). 
 
@@ -198,18 +189,6 @@ The only unit making sense in our study so far is 2: No.MPs per volume (particle
 During the entire sampling period of 2019 a total of 286 particles were detected and measured, both in the samples and the blanks. 232 particles were in the largest size class; bigger than 350 µm. 50 particles were between 100-350 µm and only 3 particles were smaller than 100 µm (thereof one fibre). All paint fragments were under 350 µm in the longest dimension and 21 of 40 fragments were under 350 µm. Size distribution of all detected particles are shown in the graph below. 
 
  
-```{r pakkar, message=FALSE, warning=FALSE,echo=FALSE,include=FALSE}
-library(dplyr)
-library(plyr)
-library(magrittr)
-library(DT)
-library(data.table)
-library(tidyverse)
-data <- read.csv('skjol/MPdata2019Karin.csv',header = T,dec = ".",na.strings = "")
-data$Blank <- ifelse(grepl("lank",data$Sample),"yes","no")
-data$SizeClass <- ifelse(data$Length<=100 & data$Width<=100,"small",ifelse(data$Length>100 & data$Width>100 & data$Length<=350 & data$Width<=350,"medium","large"))
-litir=c("#E2FCFF", "#181818", "#FCFCD3")
-```
 
 ```{r fragments, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -399,7 +378,7 @@ In theory particle number should increase with decreasing particle size but that
 
 Since the mean particle number was around 1.3 (± 2.3) per sampling trip and the mean number of particles found in the blank was around 0.5 (± 1.3) per sampling trip our findings are not very meaningful. 
 
-<p style="color:red">The number of detected MP particles must be well above blank samples!!!</p>
+<div class = "orangehigh">The number of detected MP particles must be well above blank samples!!!</div>
 
 
 ### Improvements/Ideas
