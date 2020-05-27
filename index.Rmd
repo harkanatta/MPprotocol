@@ -29,6 +29,7 @@ library(DT)
 library(data.table)
 library(tidyverse)
 library(crayon)
+library(magick)
 data <- read.csv('skjol/MPdata2019Karin.csv',header = T,dec = ".",na.strings = "")
 data$Blank <- ifelse(grepl("lank",data$Sample),"yes","no")
 data$SizeClass <- ifelse(data$Length<=100 & data$Width<=100,"small",ifelse(data$Length>100 & data$Width>100 & data$Length<=350 & data$Width<=350,"medium","large"))
@@ -132,7 +133,7 @@ If the samples are frozen, defrost them at room temperature. If the quantity of 
 
 The samples are then covered with aluminium foil, frozen at -70 °C and placed into the freeze dryer until dry.
 
-The weight of the Erlenmeyer flasks should be taken once they reached room temperature. Subtract the recorded tare and document the mass of organic matter. 
+The weight of the Erlenmeyer flasks should be taken once they reached room temperature. Subtract the recorded tare and document the dry mass of the sample. 
 
 ### Sample digestion
 
@@ -140,7 +141,7 @@ A sample pre-treatment consisting of digestion of the soft tissues in potassium 
 
 #### 10 % KOH digestion
 
-At least 20 ml of 10 % potassium hydroxide solution is added to each flask (including blank). Make sure the entire sample is covered with solution (if there is a lot of organic material more solution might be needed to cover the material). The mixture is placed in a temperature-controlled oven at 40 °C. It is very important to not exceed this temperature. The treatment of the samples continues at 40 °C for a maximum of 72 hours.
+At least 20 ml of 10 % potassium hydroxide solution is added to each flask (including blank). Make sure the entire sample is covered with solution (if there is a lot of organic material more solution might be needed to cover the material). The mixture is placed in a temperature-controlled oven at 40 °C. *It is very important to not exceed this temperature*. The treatment of the samples continues at 40 °C for a maximum of 72 hours.
 
 #### 10 % H2O2 digestion
 
@@ -262,9 +263,9 @@ Mpcolour <- data %>%
   filter(Blank=="no") %>% 
   ddply(.(Type,Colour),summarize,N=table(Colour)) %>% 
   filter(N!=0) %>%
-  pivot_wider(names_from = Type,values_from = N) 
+  pivot_wider(names_from = Type,values_from = N) %>% 
+  mutate_all(~ replace(.,0 | is.na(.), 0)) #Mpcolour[is.na(Mpcolour)] <- 0 
   
-Mpcolour[is.na(Mpcolour)] <- 0 
 
 gat <- as.matrix(Mpcolour[,2:4])
 rownames(gat) <- levels(Mpcolour$Colour)
@@ -472,7 +473,66 @@ fit <- lm(tafla$`Digestion efficiency [%]`~tafla$`Debris before digestion [g]`)
 abline(a=coef(fit)[1], b=coef(fit)[2])
 ```
 
+# Comparison of Enzymatic purification and GESAMP protocol
+
+Replication of the methods from the article: Enzymatic Purification of Microplastics in Environmental Samples.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# sjá Tare with foil 28/4 í dagbók
+DF <- data.frame("Filter" = c('Blank-A', 'Blank-B', 17:22),
+Treatment = c('Enzymatic','BASEMAN','Enzymatic','Enzymatic','Enzymatic','BASEMAN','BASEMAN','BASEMAN'),
+PD = c(15.7920, 15.5920, 15.5780, 15.7743, 15.5989, 15.7937, 15.5831, 15.7797),
+PDandFilters = c(15.8682, 15.6722, 15.6555, 15.8510, 15.6725, 15.8692, 15.6590, 15.8588),
+result = c(15.8692, 15.6708, 15.6552, 15.8505, 15.6718, 15.9635, 15.6919, 15.9621))
+DF <- DF[-c(1:2),]
+DF$Sample <- c('C','B','A','C','B','A')
+DF$Sample <- as.factor(DF$Sample)
+DF$Flask <- c(123.4617, 121.2219, 122.4841, 115.0884, 118.8148, 121.4443) 
+DF$Frozen <- c(124.8885, 122.4973, 123.8675, 116.6767, 120.0980, 122.9477)
+DF$`Organic material` <- DF$Frozen-DF$Flask
+DF <- DF %>% mutate_if(is.numeric, ~round(., 3))
+par(mfrow=c(1,2))
+plot((DF$result-DF$PDandFilters)~DF$Treatment,xlab='Treatment',ylab = 'Organic material')
+plot((DF$result-DF$PDandFilters)~DF$Sample,xlab='Samples',ylab = 'Organic material')
+
+DF$Residual <- ((DF$result-DF$PDandFilters))
+DF$`Digestion Efficiency` <- round(1-DF$Residual/DF$`Organic material`,2)
 
 
 
+#DF <- DF[c(6,2,7),]
+knitr::kable(DF[,c(2,6,9,11)],row.names = F)
 
+```
+
+## Images
+
+```{r Enzymatic, echo=FALSE, message=FALSE, warning=FALSE}
+
+mynd18 <- image_read("myndir/residual/mynd18.tif") %>% 
+  image_scale("x300") %>% 
+  image_annotate("Enzymatic B", size = 30, color = "red", boxcolor = "pink", location = "+50+50")
+mynd19 <- image_read("myndir/residual/mynd19.tif") %>% 
+  image_scale("x300") %>% 
+  image_annotate("Enzymatic A", size = 30, color = "red", boxcolor = "pink", location = "+50+50")
+mynd <- c(mynd19, mynd18) 
+image_append(mynd)
+
+```
+
+
+```{r BASEMAN, echo=FALSE, message=FALSE, warning=FALSE}
+
+mynd20 <- image_read("myndir/residual/mynd20.tif") %>% 
+  image_scale("x300") %>% 
+  image_annotate("BASEMAN C", size = 30, color = "red", boxcolor = "pink", location = "+50+50")
+mynd21 <- image_read("myndir/residual/mynd21.tif") %>% 
+  image_scale("x300") %>% 
+  image_annotate("BASEMAN B", size = 30, color = "red", boxcolor = "pink", location = "+50+50")
+mynd22 <- image_read("myndir/residual/mynd22.tif") %>% 
+  image_scale("x300") %>% 
+  image_annotate("BASEMAN A", size = 30, color = "red", boxcolor = "pink", location = "+50+50")
+mynd <- c(mynd22, mynd21, mynd20) 
+image_append(mynd)
+
+```
