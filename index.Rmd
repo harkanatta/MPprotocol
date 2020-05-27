@@ -15,7 +15,7 @@ bibliography: refs.bib
 biblio-style: apalike
 link-citations: yes
 description: "Protocol for sampling and processing based on the BASEMAN protocol. Description and first trials in Húnaflói Iceland"    
-favicon: 'myndir/zeropoint_logo.jpg'
+favicon: 'myndir/favicon.ico'
 fig_caption: yes
 ---
 
