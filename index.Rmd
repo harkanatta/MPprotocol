@@ -475,7 +475,9 @@ abline(a=coef(fit)[1], b=coef(fit)[2])
 
 # Comparison of Enzymatic purification and GESAMP protocol
 
-Replication of the methods from the article: Enzymatic Purification of Microplastics in Environmental Samples.
+*Replication of the methods from the article: [Enzymatic Purification of Microplastics in Environmental Samples](https://pubs.acs.org/doi/abs/10.1021/acs.est.7b03055).*
+
+To perform this comparison study samples A, B and C from sample trip 909 were divided in two treatments; the BASEMAN (see above) and Enzymatic treatment (without the density separation step).
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 # sjá Tare with foil 28/4 í dagbók
@@ -489,23 +491,25 @@ DF$Sample <- c('C','B','A','C','B','A')
 DF$Sample <- as.factor(DF$Sample)
 DF$Flask <- c(123.4617, 121.2219, 122.4841, 115.0884, 118.8148, 121.4443) 
 DF$Frozen <- c(124.8885, 122.4973, 123.8675, 116.6767, 120.0980, 122.9477)
-DF$`Organic material` <- DF$Frozen-DF$Flask
+DF$`Debris before (g)` <- DF$Frozen-DF$Flask
 DF <- DF %>% mutate_if(is.numeric, ~round(., 3))
-par(mfrow=c(1,2))
-plot((DF$result-DF$PDandFilters)~DF$Treatment,xlab='Treatment',ylab = 'Organic material')
-plot((DF$result-DF$PDandFilters)~DF$Sample,xlab='Samples',ylab = 'Organic material')
+#par(mfrow=c(1,2))
+#plot((DF$result-DF$PDandFilters)~DF$Sample,xlab='Samples',ylab = 'Debris (g)')
+plot((DF$result-DF$PDandFilters)~DF$Treatment,xlab='Treatment',ylab = 'Debris (g)')
 
-DF$Residual <- ((DF$result-DF$PDandFilters))
-DF$`Digestion Efficiency` <- round(1-DF$Residual/DF$`Organic material`,2)
+DF$`Debris after (g)` <- ((DF$result-DF$PDandFilters))
+DF$`Digestion Efficiency (%)` <- round(1-DF$`Debris after (g)`/DF$`Debris before (g)`,2)*100
 
 
 
 #DF <- DF[c(6,2,7),]
-knitr::kable(DF[,c(2,6,9,11)],row.names = F)
+knitr::kable(DF[,c(2,6,9:11)],row.names = F)
 
 ```
 
 ## Images
+
+The debris left over from the enzymatic approach is acceptable for the Raman spectroscopy with a particle finder.
 
 ```{r Enzymatic, echo=FALSE, message=FALSE, warning=FALSE}
 
