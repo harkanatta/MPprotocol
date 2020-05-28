@@ -55,6 +55,8 @@
 <link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
 <script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/dt-ext-responsive-1.10.20/css/responsive.dataTables.min.css" rel="stylesheet" />
+<script src="libs/dt-ext-responsive-1.10.20/js/dataTables.responsive.min.js"></script>
 <link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
 <script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
 
@@ -143,62 +145,8 @@
 <h1><span class="header-section-number">Chapter 3</span> Comparison of Enzymatic purification and GESAMP protocol</h1>
 <p><em>Replication of the methods from the article: <a href="https://pubs.acs.org/doi/abs/10.1021/acs.est.7b03055">Enzymatic Purification of Microplastics in Environmental Samples</a>.</em></p>
 <p>To perform this comparison study samples A, B and C from sample trip 909 were divided in two treatments; the BASEMAN (see above) and Enzymatic treatment (without the density separation step).</p>
-<p><img src="MPprotocol_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Treatment</th>
-<th align="left">Sample</th>
-<th align="right">Debris before (g)</th>
-<th align="right">Debris after (g)</th>
-<th align="right">Digestion Efficiency (%)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Enzymatic</td>
-<td align="left">C</td>
-<td align="right">1.427</td>
-<td align="right">-0.001</td>
-<td align="right">100</td>
-</tr>
-<tr class="even">
-<td align="left">Enzymatic</td>
-<td align="left">B</td>
-<td align="right">1.275</td>
-<td align="right">0.000</td>
-<td align="right">100</td>
-</tr>
-<tr class="odd">
-<td align="left">Enzymatic</td>
-<td align="left">A</td>
-<td align="right">1.383</td>
-<td align="right">0.000</td>
-<td align="right">100</td>
-</tr>
-<tr class="even">
-<td align="left">BASEMAN</td>
-<td align="left">C</td>
-<td align="right">1.588</td>
-<td align="right">0.094</td>
-<td align="right">94</td>
-</tr>
-<tr class="odd">
-<td align="left">BASEMAN</td>
-<td align="left">B</td>
-<td align="right">1.283</td>
-<td align="right">0.033</td>
-<td align="right">97</td>
-</tr>
-<tr class="even">
-<td align="left">BASEMAN</td>
-<td align="left">A</td>
-<td align="right">1.503</td>
-<td align="right">0.103</td>
-<td align="right">93</td>
-</tr>
-</tbody>
-</table>
+<p><img src="MPprotocol_files/figure-html/unnamed-chunk-1-1.png" width="672" /><div id="htmlwidget-9ba82ca97505c1b9c75a" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9ba82ca97505c1b9c75a">{"x":{"filter":"none","extensions":["Responsive"],"data":[["Enzymatic","Enzymatic","Enzymatic","BASEMAN","BASEMAN","BASEMAN"],["C","B","A","C","B","A"],[1.427,1.275,1.383,1.588,1.283,1.503],[-0.00100000000000122,0,0,0.0939999999999994,0.0329999999999995,0.103],[1,1,1,0.94,0.97,0.93]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Treatment<\/th>\n      <th>Sample<\/th>\n      <th>Debris before (g)<\/th>\n      <th>Debris after (g)<\/th>\n      <th>Digestion Efficiency (%)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","columnDefs":[{"targets":3,"render":"function(data, type, row, meta) { return DTWidget.formatRound(data, 3, 3, \",\", \".\"); }"},{"targets":4,"render":"function(data, type, row, meta) { return DTWidget.formatPercentage(data, 2, 3, \",\", \".\"); }"},{"className":"dt-right","targets":[2,3,4]}],"order":[],"autoWidth":false,"orderClasses":false,"responsive":true}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script></p>
 <div id="images" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Images</h2>
 <p>The debris left over from the enzymatic approach is acceptable for the Raman spectroscopy with a particle finder.</p>

@@ -421,7 +421,7 @@ tafla$`Sampling Date` <- as.Date(as.character(tafla$`Sampling Date`),"%d-%m-%Y")
 tafla$`Processing Date` <- as.Date(as.character(tafla$`Processing Date`),"%d-%m-%Y")
 tafla$`Put on Filter` <- as.Date(as.character(tafla$`Put on Filter`),"%d-%m-%Y")
 #knitr::kable(tafla)
-DT::datatable(tafla,caption = "Sampling and processing dates",rownames = F)
+DT::datatable(tafla,caption = "Sampling and processing dates",rownames = F, extensions = 'Responsive')
 ```
 
 
@@ -440,7 +440,7 @@ tafla <- tafla[,-10]
 names(tafla)[c(2,4,6,7,8,9)] <- c("Repl.","Debris after digest. [g] incl. tare", "Debris after digest. [g]","Debris before digest. [g]","% left after digest.","Digest. EFFCY [%]")
 #knitr::kable(tafla)
 tafla %>% 
-  DT::datatable(caption = "Efficiency of digestion",rownames = F) %>% 
+  DT::datatable(caption = "Efficiency of digestion",rownames = F, extensions = 'Responsive') %>% 
   DT::formatStyle(columns = colnames(tafla), fontSize = '80%')
 ```
 
@@ -498,12 +498,14 @@ DF <- DF %>% mutate_if(is.numeric, ~round(., 3))
 plot((DF$result-DF$PDandFilters)~DF$Treatment,xlab='Treatment',ylab = 'Debris (g)')
 
 DF$`Debris after (g)` <- ((DF$result-DF$PDandFilters))
-DF$`Digestion Efficiency (%)` <- round(1-DF$`Debris after (g)`/DF$`Debris before (g)`,2)*100
+DF$`Digestion Efficiency (%)` <- round(1-DF$`Debris after (g)`/DF$`Debris before (g)`,2)
 
 
 
 #DF <- DF[c(6,2,7),]
-knitr::kable(DF[,c(2,6,9:11)],row.names = F)
+datatable(DF[,c(2,6,9:11)],rownames = F, extensions = 'Responsive', options = list(dom = 't')) %>% 
+  formatPercentage('Digestion Efficiency (%)', 2) %>% 
+   formatRound('Debris after (g)', 3)
 
 ```
 
